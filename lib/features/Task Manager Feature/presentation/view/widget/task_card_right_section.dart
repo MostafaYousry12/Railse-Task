@@ -46,7 +46,6 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
           children: [
             buildStatusWidget(task),
             const SizedBox(width: 5),
-            // Only show edit icon for Not Started and Started tasks
             if (task.status != TaskStatus.completed)
               InkWell(
                 onTap: () async {
@@ -89,7 +88,6 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
               ),
         const SizedBox(height: 15),
 
-        // Show appropriate action button based on task status
         if (task.status == TaskStatus.notStarted)
           InkWell(
             onTap: () {

@@ -21,11 +21,11 @@ Widget buildStatusWidget(Task task) {
         return "Overdue ${absDiff.inMinutes}m";
       }
     } else if (diff.inDays > 0) {
-      return "Due in ${diff.inDays} day${diff.inDays > 1 ? 's' : ''}";
+      return "Overdue in ${diff.inDays} day${diff.inDays > 1 ? 's' : ''}";
     } else if (diff.inHours > 0) {
-      return "Due in ${diff.inHours}h ${diff.inMinutes.remainder(60)}m";
+      return "Overdue in ${diff.inHours}h ${diff.inMinutes.remainder(60)}m";
     } else if (diff.inMinutes > 0) {
-      return "Due in ${diff.inMinutes}m";
+      return "Overdue in ${diff.inMinutes}m";
     } else {
       return "Due now";
     }
@@ -104,12 +104,12 @@ Widget buildStatusWidget(Task task) {
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14,
-          color: kOrderName,
+          color: kOrderOverDue,
         ),
       );
 
     case TaskStatus.completed:
-      final completedDate = task.completedDate ?? task.startDate;
+      final completedDate = task.startDate;
       if (completedDate != null) {
         final isToday = DateUtils.isSameDay(completedDate, DateTime.now());
         return Text(

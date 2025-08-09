@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart' show listEquals;
 import 'package:meta/meta.dart';
 import 'package:railse_task/features/Task%20Manager%20Feature/presentation/view_model/task_manager_model/task_model.dart';
 
@@ -17,6 +16,8 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
           assignedTo: 'Sandhya',
           status: TaskStatus.started,
           startDate: DateTime.parse('2025-08-10'),
+          priority: "High Priority",
+
           deadline: DateTime.now().add(Duration(hours: 10, minutes: 5)),
         ),
         Task(
@@ -62,7 +63,6 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
           assignedTo: 'Prashant',
           status: TaskStatus.notStarted,
           startDate: DateTime.parse('2025-08-28'),
-          deadline: DateTime.now().add(Duration(days: 2)),
         ),
         Task(
           id: 'Order-176',
