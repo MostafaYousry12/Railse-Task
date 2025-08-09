@@ -20,12 +20,18 @@ class TaskCardRightSection extends StatelessWidget {
                 color: kOrderOverDue,
               ),
             ),
-            Icon(
-              FontAwesomeIcons.penToSquare,
-              color: Colors.grey.withOpacity(.8),
+            const SizedBox(width: 5),
+            InkWell(
+              onTap: () {},
+              child: Icon(
+                FontAwesomeIcons.penToSquare,
+                color: Colors.grey.withOpacity(.8),
+                size: 16,
+              ),
             ),
           ],
         ),
+
         Text(
           "Started : Aug 10",
           style: TextStyle(
@@ -34,7 +40,7 @@ class TaskCardRightSection extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 15),
         const Row(
           children: [
             Icon(Icons.check, size: 13, color: kOrderCompleted),
