@@ -3,19 +3,23 @@ part of 'task_manager_cubit.dart';
 @immutable
 sealed class TaskManagerState {}
 
-final class TaskManagerInitial extends TaskManagerState {}
+final class TaskLoading extends TaskManagerState {}
 
-final class TaskManagerStarted extends TaskManagerState {
-  final String taskId;
-  TaskManagerStarted(this.taskId);
+final class TaskManagerInitial extends TaskManagerState {
+  final List<Task> tasks;
+  TaskManagerInitial(this.tasks);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is TaskManagerInitial && listEquals(other.tasks, tasks);
+  }
+
+  @override
+  int get hashCode => tasks.hashCode;
 }
 
-final class TaskManagerCompleted extends TaskManagerState {
-  final String taskId;
-  TaskManagerCompleted(this.taskId);
-}
-
-final class TaskManagerNotCompleted extends TaskManagerState {
-  final String taskId;
-  TaskManagerNotCompleted(this.taskId);
+final class TaskError extends TaskManagerState {
+  final String message;
+  TaskError(this.message);
 }
