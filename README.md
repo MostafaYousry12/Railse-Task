@@ -1,4 +1,4 @@
-# Task Manager - Railse Hiring Task
+# Task List - Railse Hiring Task
 
 This project is a **Task Manager screen** implemented as part of the **Railse hiring task**.  
 It allows users to view, update, and manage tasks, with features like starting tasks, marking them as completed, and updating start dates.
