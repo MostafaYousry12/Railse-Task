@@ -81,7 +81,10 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
       final currentTasks = (state as TaskManagerInitial).tasks;
       final updatedTasks = currentTasks.map((task) {
         if (task.id == taskId && task.status == TaskStatus.notStarted) {
-          return task.copyWith(status: TaskStatus.started);
+          return task.copyWith(
+            status: TaskStatus.started,
+            startDate: task.startDate ?? DateTime.now(),
+          );
         }
         return task;
       }).toList();
@@ -119,6 +122,22 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
         return task;
       }).toList();
       emit(TaskManagerInitial(updatedTasks));
+    }
+  }
+
+  List<Task> getCurrentTasks() {
+    if (state is TaskManagerInitial) {
+      return (state as TaskManagerInitial).tasks;
+    }
+    return [];
+  }
+
+  Task? findTask(String taskId) {
+    final tasks = getCurrentTasks();
+    try {
+      return tasks.firstWhere((task) => task.id == taskId);
+    } catch (e) {
+      return null;
     }
   }
 }

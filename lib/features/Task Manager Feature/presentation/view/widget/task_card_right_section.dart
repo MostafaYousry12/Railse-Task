@@ -46,71 +46,99 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
           children: [
             buildStatusWidget(task),
             const SizedBox(width: 5),
-            InkWell(
-              onTap: () async {
-                final newDate = await _pickDate(context);
-                if (newDate != null) {
-                  setState(() {
-                    task = task.copyWith(startDate: newDate);
-                  });
-                  context.read<TaskManagerCubit>().updateTaskStartDate(
-                    task.id,
-                    newDate,
-                  );
-                }
-              },
-              child: Icon(
-                FontAwesomeIcons.penToSquare,
-                color: Colors.grey.withOpacity(.8),
-                size: 16,
+            // Only show edit icon for Not Started and Started tasks
+            if (task.status != TaskStatus.completed)
+              InkWell(
+                onTap: () async {
+                  final newDate = await _pickDate(context);
+                  if (newDate != null) {
+                    setState(() {
+                      task = task.copyWith(startDate: newDate);
+                    });
+                    context.read<TaskManagerCubit>().updateTaskStartDate(
+                      task.id,
+                      newDate,
+                    );
+                  }
+                },
+                child: Icon(
+                  FontAwesomeIcons.penToSquare,
+                  color: Colors.grey.withOpacity(.8),
+                  size: 16,
+                ),
               ),
-            ),
           ],
         ),
 
-        Text(
-          "Started : ${DateFormat('MMM d').format(task.startDate!)}",
-          style: TextStyle(
-            color: kDescriptionColor.withOpacity(.7),
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(height: 15),
-        task.status == TaskStatus.started
-            ? InkWell(
-                onTap: () {
-                  context.read<TaskManagerCubit>().markTaskAsComplete(task.id);
-                },
-                child: Row(
-                  children: [
-                    Icon(Icons.check, size: 14, color: kOrderCompleted),
-                    SizedBox(width: 5),
-                    Text(
-                      "Mark as Completed",
-                      style: TextStyle(
-                        color: kOrderCompleted,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
+        task.status == TaskStatus.notStarted
+            ? Text(
+                "Start : ${DateFormat('MMM d').format(task.startDate!)}",
+                style: TextStyle(
+                  color: kDescriptionColor.withOpacity(.7),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
               )
-            : Row(
-                children: [
-                  Icon(Icons.play_circle, size: 13, color: kOrderName),
-                  SizedBox(width: 5),
-                  Text(
-                    "Start Task",
-                    style: TextStyle(
-                      color: kOrderName,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+            : Text(
+                "Started : ${DateFormat('MMM d').format(task.startDate!)}",
+                style: TextStyle(
+                  color: kDescriptionColor.withOpacity(.7),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+        const SizedBox(height: 15),
+
+        // Show appropriate action button based on task status
+        if (task.status == TaskStatus.notStarted)
+          InkWell(
+            onTap: () {
+              context.read<TaskManagerCubit>().startTask(task.id);
+              setState(() {
+                task = task.copyWith(status: TaskStatus.started);
+              });
+            },
+            child: Row(
+              children: [
+                Icon(Icons.play_circle, size: 13, color: kOrderName),
+                SizedBox(width: 5),
+                Text(
+                  "Start Task",
+                  style: TextStyle(
+                    color: kOrderName,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          )
+        else if (task.status == TaskStatus.started)
+          InkWell(
+            onTap: () {
+              context.read<TaskManagerCubit>().markTaskAsComplete(task.id);
+              setState(() {
+                task = task.copyWith(
+                  status: TaskStatus.completed,
+                  completedDate: DateTime.now(),
+                );
+              });
+            },
+            child: Row(
+              children: [
+                Icon(Icons.check, size: 14, color: kOrderCompleted),
+                SizedBox(width: 5),
+                Text(
+                  "Mark as Completed",
+                  style: TextStyle(
+                    color: kOrderCompleted,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
       ],
     );
   }
