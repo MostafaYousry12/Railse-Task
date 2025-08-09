@@ -10,6 +10,7 @@ It allows users to view, update, and manage tasks, with features like starting t
 - Update the start date via a date picker
 - Automatic status text formatting (e.g., *Due in X days*, *Overdue*, *Completed Today*)
 - Built using **MVVM Pattern** for clean and maintainable code
+_ Build Using Bloc State Management
 
 ## 🏗 Architecture
 This app is structured using **MVVM**:
