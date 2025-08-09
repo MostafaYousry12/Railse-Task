@@ -70,7 +70,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
           assignedTo: 'Prashant',
           priority: "High Priority",
           status: TaskStatus.notStarted,
-          startDate: DateTime.now().add(Duration(days: 1)), // Due Tomorrow
+          startDate: DateTime.now().add(Duration(days: 1)),
         ),
       ]),
     );
@@ -100,7 +100,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
           return task.copyWith(
             status: TaskStatus.completed,
             completedDate: DateTime.now(),
-            deadline: null, // no longer relevant
+            deadline: null,
             startDate: task.startDate ?? DateTime.now(),
           );
         }
