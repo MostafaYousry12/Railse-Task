@@ -8,7 +8,7 @@ part 'task_manager_state.dart';
 class TaskManagerCubit extends Cubit<TaskManagerState> {
   TaskManagerCubit() : super(TaskManagerInitial([]));
 
-  void _loadInitialTasks() {
+  void loadInitialTasks() {
     emit(
       TaskManagerInitial([
         Task(

@@ -1,9 +1,9 @@
 part of 'task_manager_cubit.dart';
 
 @immutable
-sealed class TaskManagerState {}
-
-final class TaskLoading extends TaskManagerState {}
+sealed class TaskManagerState {
+  List<Task> get tasks;
+}
 
 final class TaskManagerInitial extends TaskManagerState {
   final List<Task> tasks;
@@ -17,9 +17,4 @@ final class TaskManagerInitial extends TaskManagerState {
 
   @override
   int get hashCode => tasks.hashCode;
-}
-
-final class TaskError extends TaskManagerState {
-  final String message;
-  TaskError(this.message);
 }

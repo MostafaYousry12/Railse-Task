@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 enum TaskStatus { notStarted, started, completed }
 
 class Task {
@@ -7,7 +9,8 @@ class Task {
   final TaskStatus status;
   final DateTime? startDate;
   final DateTime? deadline;
-  final String? priority; //
+  final String? priority;
+  final Color? containerColor;
 
   Task({
     required this.id,
@@ -17,6 +20,7 @@ class Task {
     this.startDate,
     this.deadline,
     this.priority,
+    this.containerColor,
   });
 
   Task copyWith({
@@ -27,6 +31,7 @@ class Task {
     DateTime? startDate,
     DateTime? deadline,
     String? priority,
+    Color? containerColor,
   }) {
     return Task(
       id: id ?? this.id,
@@ -36,6 +41,7 @@ class Task {
       startDate: startDate ?? this.startDate,
       deadline: deadline ?? this.deadline,
       priority: priority ?? this.priority,
+      containerColor: containerColor ?? this.containerColor,
     );
   }
 }
