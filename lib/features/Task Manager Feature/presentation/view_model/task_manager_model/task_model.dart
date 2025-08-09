@@ -9,18 +9,18 @@ class Task {
   final TaskStatus status;
   final DateTime? startDate;
   final DateTime? deadline;
+  final DateTime? completedDate;
   final String? priority;
-  final Color? containerColor;
 
   Task({
     required this.id,
     required this.title,
     required this.assignedTo,
-    this.status = TaskStatus.notStarted,
+    required this.status,
     this.startDate,
     this.deadline,
+    this.completedDate,
     this.priority,
-    this.containerColor,
   });
 
   Task copyWith({
@@ -30,8 +30,8 @@ class Task {
     TaskStatus? status,
     DateTime? startDate,
     DateTime? deadline,
+    DateTime? completedDate,
     String? priority,
-    Color? containerColor,
   }) {
     return Task(
       id: id ?? this.id,
@@ -40,8 +40,8 @@ class Task {
       status: status ?? this.status,
       startDate: startDate ?? this.startDate,
       deadline: deadline ?? this.deadline,
+      completedDate: completedDate ?? this.completedDate,
       priority: priority ?? this.priority,
-      containerColor: containerColor ?? this.containerColor,
     );
   }
 }

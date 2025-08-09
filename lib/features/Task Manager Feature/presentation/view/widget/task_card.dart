@@ -54,11 +54,8 @@ class TaskCard extends StatelessWidget {
             4,
             (index) => Container(
               width: 5,
-              height: 15,
-              decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.6),
-                shape: BoxShape.circle,
-              ),
+              height: 16,
+              decoration: BoxDecoration(color: Colors.grey.withOpacity(0.6)),
             ),
           ),
         );
@@ -66,9 +63,9 @@ class TaskCard extends StatelessWidget {
       case TaskStatus.started:
         return Container(
           width: 5,
-          height: 60, // height to visually balance
+          height: 60,
           decoration: BoxDecoration(
-            color: kOrderName, // your color constant for started
+            color: kOrderName,
             borderRadius: BorderRadius.circular(2),
           ),
         );
@@ -78,13 +75,13 @@ class TaskCard extends StatelessWidget {
           width: 5,
           height: 60,
           decoration: BoxDecoration(
-            color: kOrderCompleted, // your color constant for completed
+            color: kOrderCompleted,
             borderRadius: BorderRadius.circular(2),
           ),
         );
 
       default:
-        return SizedBox.shrink(); // fallback empty widget
+        return SizedBox.shrink();
     }
   }
 }

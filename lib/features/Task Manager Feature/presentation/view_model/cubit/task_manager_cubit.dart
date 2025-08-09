@@ -93,8 +93,13 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     if (state is TaskManagerInitial) {
       final currentTasks = (state as TaskManagerInitial).tasks;
       final updatedTasks = currentTasks.map((task) {
-        if (task.id == taskId && task.status == TaskStatus.started) {
-          return task.copyWith(status: TaskStatus.completed);
+        if (task.id == taskId && task.status != TaskStatus.completed) {
+          return task.copyWith(
+            status: TaskStatus.completed,
+            completedDate: DateTime.now(),
+            deadline: null, // no longer relevant
+            startDate: task.startDate ?? DateTime.now(),
+          );
         }
         return task;
       }).toList();

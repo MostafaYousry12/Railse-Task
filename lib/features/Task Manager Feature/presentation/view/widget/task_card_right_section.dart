@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:railse_task/features/Task%20Manager%20Feature/presentation/view_model/cubit/task_manager_cubit.dart';
 import 'package:railse_task/features/Task%20Manager%20Feature/presentation/view_model/task_manager_model/task_model.dart';
 import 'package:railse_task/util/constants.dart';
@@ -23,19 +24,15 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
     task = widget.task;
   }
 
-  Future<void> _pickDate(BuildContext context) async {
-    if (task.status == TaskStatus.completed) return;
+  Future<DateTime?> _pickDate(BuildContext context) async {
+    if (task.status == TaskStatus.completed) return null;
 
-    final newDate = await showDatePicker(
+    return await showDatePicker(
       context: context,
-      initialDate: task.startDate,
+      initialDate: task.startDate ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
-
-    if (newDate != null) {
-      context.read<TaskManagerCubit>().updateTaskStartDate(task.id, newDate);
-    }
   }
 
   @override
@@ -49,7 +46,18 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
             _buildStatusWidget(task),
             const SizedBox(width: 5),
             InkWell(
-              onTap: () => _pickDate(context),
+              onTap: () async {
+                final newDate = await _pickDate(context);
+                if (newDate != null) {
+                  setState(() {
+                    task = task.copyWith(startDate: newDate);
+                  });
+                  context.read<TaskManagerCubit>().updateTaskStartDate(
+                    task.id,
+                    newDate,
+                  );
+                }
+              },
               child: Icon(
                 FontAwesomeIcons.penToSquare,
                 color: Colors.grey.withOpacity(.8),
@@ -60,7 +68,7 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
         ),
 
         Text(
-          "Started : ${task.startDate}",
+          "Started : ${DateFormat('MMM d').format(task.startDate!)}",
           style: TextStyle(
             color: kDescriptionColor.withOpacity(.7),
             fontSize: 14,
@@ -75,7 +83,7 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
                 },
                 child: Row(
                   children: [
-                    Icon(Icons.check, size: 13, color: kOrderCompleted),
+                    Icon(Icons.check, size: 14, color: kOrderCompleted),
                     SizedBox(width: 5),
                     Text(
                       "Mark as Completed",
@@ -90,7 +98,7 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
               )
             : Row(
                 children: [
-                  Icon(Icons.check, size: 13, color: kOrderName),
+                  Icon(Icons.play_circle, size: 13, color: kOrderName),
                   SizedBox(width: 5),
                   Text(
                     "Start Task",
@@ -107,11 +115,29 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
   }
 
   Widget _buildStatusWidget(Task task) {
+    final dateFormatter = DateFormat('MMM d');
+
+    String _formatDueDate(DateTime dueDate) {
+      final now = DateTime.now();
+      final diff = dueDate.difference(now);
+
+      if (diff.inDays > 0 && diff.inDays <= 3) {
+        return "Due in ${diff.inDays} day${diff.inDays > 1 ? 's' : ''}";
+      } else if (diff.inDays == 0 && diff.inHours > 0) {
+        return "Overdue ${diff.inHours}h ${diff.inMinutes.remainder(60)}m";
+      } else if (diff.isNegative) {
+        return "Overdue";
+      }
+      return "Overdue - ${dateFormatter.format(dueDate)}";
+    }
+
     switch (task.status) {
       case TaskStatus.notStarted:
         return Text(
-          "Due - ${task.startDate}",
-          style: TextStyle(
+          task.deadline != null
+              ? _formatDueDate(task.deadline!)
+              : "Due - ${task.startDate != null ? dateFormatter.format(task.startDate!) : ''}",
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
             color: kOrderNotStarted,
@@ -120,11 +146,11 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
 
       case TaskStatus.started:
         final deadlineText = task.deadline != null
-            ? "Overdue - ${task.deadline}"
+            ? _formatDueDate(task.deadline!)
             : "Started";
         return Text(
           deadlineText,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
             color: kOrderOverDue,
@@ -132,9 +158,15 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
         );
 
       case TaskStatus.completed:
+        final completedDate = task.completedDate ?? task.startDate;
+        final isToday =
+            completedDate != null &&
+            DateUtils.isSameDay(completedDate, DateTime.now());
         return Text(
-          "Completed - ${task.startDate}",
-          style: TextStyle(
+          isToday
+              ? "Completed Today"
+              : "Completed - ${completedDate != null ? dateFormatter.format(completedDate) : ''}",
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
             color: kOrderCompleted,
@@ -142,7 +174,7 @@ class _TaskCardRightSectionState extends State<TaskCardRightSection> {
         );
 
       default:
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
     }
   }
 }
