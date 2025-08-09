@@ -1,16 +1,19 @@
-# railse_task
+# Task Manager - Railse Hiring Task
 
-A new Flutter project.
+This project is a **Task Manager screen** implemented as part of the **Railse hiring task**.  
+It allows users to view, update, and manage tasks, with features like starting tasks, marking them as completed, and updating start dates.
 
-## Getting Started
+## 📌 Features
+- Display task list with status (`Not Started`, `Started`, `Completed`)
+- Start a task and track its progress
+- Mark a task as completed with a completion date
+- Update the start date via a date picker
+- Automatic status text formatting (e.g., *Due in X days*, *Overdue*, *Completed Today*)
+- Built using **MVVM Pattern** for clean and maintainable code
 
-This project is a starting point for a Flutter application.
+## 🏗 Architecture
+This app is structured using **MVVM**:
+- **Model** → `Task` data model representing the task entity
+- **View** → UI widgets displaying task information
+- **ViewModel** → `TaskManagerCubit` handling state changes using `flutter_bloc`
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
