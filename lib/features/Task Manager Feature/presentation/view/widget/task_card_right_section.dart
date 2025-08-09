@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:railse_task/utils/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:railse_task/util/constants.dart';
 
 class TaskCardRightSection extends StatelessWidget {
   const TaskCardRightSection({super.key});
@@ -23,7 +23,7 @@ class TaskCardRightSection extends StatelessWidget {
             Icon(
               FontAwesomeIcons.penToSquare,
               color: Colors.grey.withOpacity(.8),
-            )
+            ),
           ],
         ),
         Text(
@@ -34,19 +34,11 @@ class TaskCardRightSection extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         const Row(
           children: [
-            Icon(
-              Icons.check,
-              size: 13,
-              color: kOrderCompleted,
-            ),
-            SizedBox(
-              width: 5,
-            ),
+            Icon(Icons.check, size: 13, color: kOrderCompleted),
+            SizedBox(width: 5),
             Text(
               "Mark as Completed",
               style: TextStyle(
@@ -56,7 +48,7 @@ class TaskCardRightSection extends StatelessWidget {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

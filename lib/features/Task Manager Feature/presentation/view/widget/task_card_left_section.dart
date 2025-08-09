@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:railse_task/utils/constants.dart';
+import 'package:railse_task/util/constants.dart';
 
 class TaskCardLeftSection extends StatelessWidget {
   const TaskCardLeftSection({super.key});
@@ -22,13 +22,8 @@ class TaskCardLeftSection extends StatelessWidget {
                 decorationThickness: 2,
               ),
             ),
-            const SizedBox(
-              width: 5,
-            ),
-            Icon(
-              Icons.more_vert,
-              color: Colors.grey.withOpacity(.8),
-            )
+            const SizedBox(width: 5),
+            Icon(Icons.more_vert, color: Colors.grey.withOpacity(.8)),
           ],
         ),
         const Text(
@@ -39,9 +34,7 @@ class TaskCardLeftSection extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         const Row(
           children: [
             Text(
@@ -52,9 +45,7 @@ class TaskCardLeftSection extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(
-              width: 10,
-            ),
+            SizedBox(width: 10),
             Text(
               "High Priority",
               style: TextStyle(
@@ -64,7 +55,7 @@ class TaskCardLeftSection extends StatelessWidget {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }
