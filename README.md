@@ -14,7 +14,7 @@ _ Build Using Bloc State Management
 
 ## 🏗 Architecture
 This app is structured using **MVVM**:
-- **Date** → `Task` data model representing the task entity
+- **Model** → `Task` data model representing the task entity
 - **View** → UI widgets displaying task information
 - **ViewModel** → `TaskManagerCubit` handling state changes using `flutter_bloc`
 
